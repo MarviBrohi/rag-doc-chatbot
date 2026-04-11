@@ -9,7 +9,7 @@ from utils.pdf_parser import extract_text_from_pdfs
 
 load_dotenv()
 
-# Page Config
+# ── Page Config ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="DocuMind AI",
     page_icon="🧠",
@@ -17,11 +17,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
-st.markdown("""
-<style>
+# ── Custom CSS ─────────────────────────────────────────────────────────────────
+st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
-
 :root {
     --bg-primary: #0a0a0f;
     --bg-secondary: #111118;
@@ -36,30 +34,24 @@ st.markdown("""
     --border: #2a2a3a;
     --glow: rgba(79, 142, 247, 0.15);
 }
-
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
     background-color: var(--bg-primary) !important;
     color: var(--text-primary) !important;
 }
-
 .stApp { background-color: var(--bg-primary) !important; }
-
 #MainMenu, footer, header { visibility: hidden; }
-
 [data-testid="stSidebar"] {
     background: var(--bg-secondary) !important;
     border-right: 1px solid var(--border) !important;
 }
 [data-testid="stSidebar"] * { color: var(--text-primary) !important; }
-
 [data-testid="stFileUploader"] {
     background: var(--bg-card) !important;
     border: 1px dashed var(--accent-blue) !important;
     border-radius: 12px !important;
     padding: 8px !important;
 }
-
 .stButton > button {
     background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)) !important;
     color: white !important;
@@ -77,7 +69,6 @@ html, body, [class*="css"] {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 30px rgba(79, 142, 247, 0.5) !important;
 }
-
 [data-testid="stChatInput"] textarea {
     background: var(--bg-input) !important;
     border: 1px solid var(--border) !important;
@@ -89,7 +80,6 @@ html, body, [class*="css"] {
     border-color: var(--accent-blue) !important;
     box-shadow: 0 0 0 2px var(--glow) !important;
 }
-
 [data-testid="stChatMessage"] {
     background: var(--bg-card) !important;
     border: 1px solid var(--border) !important;
@@ -97,70 +87,35 @@ html, body, [class*="css"] {
     margin: 6px 0 !important;
     padding: 4px 8px !important;
 }
-
 [data-testid="stMetric"] {
     background: var(--bg-card) !important;
     border: 1px solid var(--border) !important;
     border-radius: 12px !important;
     padding: 12px !important;
 }
-[data-testid="stMetricValue"] {
-    color: var(--accent-cyan) !important;
-    font-family: 'Space Mono', monospace !important;
-}
-
+[data-testid="stMetricValue"] { color: var(--accent-cyan) !important; font-family: 'Space Mono', monospace !important; }
 [data-testid="stExpander"] {
     background: var(--bg-card) !important;
     border: 1px solid var(--border) !important;
     border-radius: 10px !important;
 }
-
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 3px; }
-
 .stSpinner > div { border-top-color: var(--accent-blue) !important; }
-</style>
-""", unsafe_allow_html=True)
+.feat-card { background:#16161f; border:1px solid #2a2a3a; border-radius:14px; padding:20px; text-align:center; }
+</style>""", unsafe_allow_html=True)
 
 
-# Header
+# ── Header ─────────────────────────────────────────────────────────────────────
 def render_header():
-    st.markdown("""
-    <div style="padding:28px 0 20px 0; border-bottom:1px solid #2a2a3a; margin-bottom:28px;">
-        <div style="display:flex; align-items:center; gap:14px;">
-            <div style="background:linear-gradient(135deg,#4f8ef7,#9b59f7);
-                border-radius:14px; width:52px; height:52px;
-                display:flex; align-items:center; justify-content:center;
-                font-size:26px; box-shadow:0 4px 20px rgba(79,142,247,0.4);">🧠</div>
-            <div>
-                <h1 style="margin:0; font-family:'Space Mono',monospace; font-size:28px;
-                    background:linear-gradient(135deg,#4f8ef7,#22d3ee);
-                    -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-                    DocuMind AI
-                </h1>
-                <p style="margin:0; color:#8888aa; font-size:13px;">
-                    Intelligent Document Intelligence · Powered by RAG
-                </p>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='padding:28px 0 20px 0;border-bottom:1px solid #2a2a3a;margin-bottom:28px;'><div style='display:flex;align-items:center;gap:14px;'><div style='background:linear-gradient(135deg,#4f8ef7,#9b59f7);border-radius:14px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(79,142,247,0.4);'>🧠</div><div><h1 style='margin:0;font-family:Space Mono,monospace;font-size:28px;background:linear-gradient(135deg,#4f8ef7,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;'>DocuMind AI</h1><p style='margin:0;color:#8888aa;font-size:13px;'>Intelligent Document Intelligence · Powered by RAG</p></div></div></div>", unsafe_allow_html=True)
 
 
-# Sidebar
+# ── Sidebar ────────────────────────────────────────────────────────────────────
 def render_sidebar():
     with st.sidebar:
-        st.markdown("""
-        <div style="padding:10px 0 20px 0;">
-            <h3 style="font-family:'Space Mono',monospace; color:#4f8ef7; margin:0 0 4px 0;">
-                📂 Document Hub
-            </h3>
-            <p style="color:#8888aa; font-size:12px; margin:0;">
-                Upload PDFs to begin your session
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("<div style='padding:10px 0 20px 0;'><h3 style='font-family:Space Mono,monospace;color:#4f8ef7;margin:0 0 4px 0;'>📂 Document Hub</h3><p style='color:#8888aa;font-size:12px;margin:0;'>Upload PDFs to begin your session</p></div>", unsafe_allow_html=True)
 
         uploaded_files = st.file_uploader(
             "Drop your PDFs here",
@@ -170,7 +125,6 @@ def render_sidebar():
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
-
         col1, col2 = st.columns(2)
         with col1:
             process_btn = st.button("⚡ Process", use_container_width=True)
@@ -180,143 +134,85 @@ def render_sidebar():
         if st.session_state.get("docs_processed"):
             st.markdown("<br>", unsafe_allow_html=True)
             st.markdown("**📊 Session Stats**")
-            col1, col2 = st.columns(2)
-            with col1:
+            c1, c2 = st.columns(2)
+            with c1:
                 st.metric("Docs", st.session_state.get("doc_count", 0))
-            with col2:
+            with c2:
                 st.metric("Chunks", st.session_state.get("chunk_count", 0))
             st.metric("Messages", len(st.session_state.get("messages", [])))
 
         st.markdown("<br><hr style='border-color:#2a2a3a;'><br>", unsafe_allow_html=True)
-
         st.markdown("**💡 Try asking:**")
-        sample_qs = [
-            "Summarize this document",
-            "What are the key points?",
-            "List the main topics",
-            "Explain the conclusion"
-        ]
-        for q in sample_qs:
+        for q in ["Summarize this document", "What are the key points?", "List the main topics", "Explain the conclusion"]:
             if st.button(f"  {q}", key=f"sample_{q}", use_container_width=True):
                 st.session_state["prefill_question"] = q
 
         st.markdown("<br><hr style='border-color:#2a2a3a;'><br>", unsafe_allow_html=True)
-        st.markdown("""
-        <div style="color:#8888aa; font-size:11px; line-height:1.6;">
-            <b style="color:#4f8ef7;">DocuMind AI</b> uses RAG (Retrieval-Augmented Generation)
-            to answer questions from your documents with high accuracy and source citations.<br><br>
-            Built with LangChain · FAISS · Groq LLaMA3
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("<div style='color:#8888aa;font-size:11px;line-height:1.6;'><b style='color:#4f8ef7;'>DocuMind AI</b> uses RAG (Retrieval-Augmented Generation) to answer questions from your documents with high accuracy and source citations.<br><br>Built with LangChain · FAISS · Groq LLaMA3</div>", unsafe_allow_html=True)
 
         return uploaded_files, process_btn, clear_btn
 
 
-# Welcome Screen
+# ── Welcome Screen ─────────────────────────────────────────────────────────────
 def render_welcome():
-    cards_html = ""
-    for icon, text in [
-        ("📄", "Upload PDFs"),
-        ("⚡", "Instant Processing"),
-        ("💬", "Smart Q&A"),
-        ("📎", "Source Citations"),
-    ]:
-        cards_html += f"""
-        <div style="background:#16161f; border:1px solid #2a2a3a;
-            border-radius:14px; padding:20px 24px; width:160px;">
-            <div style="font-size:28px; margin-bottom:10px;">{icon}</div>
-            <div style="font-size:13px; color:#8888aa; font-weight:500;">{text}</div>
-        </div>"""
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div style="display:flex; flex-direction:column; align-items:center;
-        justify-content:center; padding:60px 20px; text-align:center;">
-        <div style="font-size:72px; margin-bottom:24px;
-            filter:drop-shadow(0 0 30px rgba(79,142,247,0.5));">🧠</div>
-        <h2 style="font-family:'Space Mono',monospace;
-            background:linear-gradient(135deg,#4f8ef7,#22d3ee,#9b59f7);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-            font-size:32px; margin:0 0 12px 0;">Chat With Your Documents</h2>
-        <p style="color:#8888aa; font-size:16px; max-width:480px;
-            line-height:1.7; margin:0 0 40px 0;">
-            Upload your PDFs in the sidebar, click
-            <b style="color:#4f8ef7;">Process</b>,
-            and start asking questions. Get accurate, cited answers instantly.
-        </p>
-        <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
-            {cards_html}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    _, center, _ = st.columns([1, 4, 1])
+    with center:
+        st.markdown("<div style='text-align:center;font-size:64px;padding:20px 0 10px 0;'>🧠</div>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align:center;font-family:Space Mono,monospace;background:linear-gradient(135deg,#4f8ef7,#22d3ee,#9b59f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;'>Chat With Your Documents</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align:center;color:#8888aa;font-size:15px;margin-bottom:30px;'>Upload your PDFs in the sidebar, click <b style=\"color:#4f8ef7;\">Process</b>, and start asking questions. Get accurate, cited answers instantly.</p>", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col1, col2, col3, col4 = st.columns(4)
+    features = [("📄", "Upload PDFs"), ("⚡", "Instant Processing"), ("💬", "Smart Q&A"), ("📎", "Source Citations")]
+    for col, (icon, label) in zip([col1, col2, col3, col4], features):
+        with col:
+            st.markdown(f"<div class='feat-card'><div style='font-size:30px;margin-bottom:10px;'>{icon}</div><div style='font-size:13px;color:#8888aa;font-weight:500;'>{label}</div></div>", unsafe_allow_html=True)
 
 
-# Chat Message
+# ── Chat Message ───────────────────────────────────────────────────────────────
 def render_chat_message(role, content, sources=None):
     with st.chat_message(role, avatar="🧠" if role == "assistant" else "👤"):
         st.markdown(content)
         if sources and role == "assistant":
             with st.expander("📎 View Sources", expanded=False):
                 for i, src in enumerate(sources, 1):
-                    st.markdown(f"""
-                    <div style="background:#1c1c28; border-left:3px solid #4f8ef7;
-                        border-radius:8px; padding:10px 14px; margin:6px 0;
-                        font-size:13px; color:#c0c0d0; line-height:1.6;">
-                        <span style="color:#4f8ef7; font-weight:600;">Source {i}</span>
-                        — Page {src.metadata.get('page', '?')} · {src.metadata.get('source', 'document')}<br>
-                        <span style="color:#8888aa;">"{src.page_content[:220]}..."</span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    page = src.metadata.get('page', '?')
+                    doc_source = src.metadata.get('source', 'document')
+                    preview = src.page_content[:220]
+                    st.markdown(f"<div style='background:#1c1c28;border-left:3px solid #4f8ef7;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:13px;color:#c0c0d0;line-height:1.6;'><span style='color:#4f8ef7;font-weight:600;'>Source {i}</span> — Page {page} · {doc_source}<br><span style='color:#8888aa;'>\"{preview}...\"</span></div>", unsafe_allow_html=True)
 
 
-# Processing Status Banner
+# ── Status Banner ──────────────────────────────────────────────────────────────
 def show_processing_status(message, status="info"):
     colors = {"info": "#4f8ef7", "success": "#10b981", "error": "#ef4444"}
-    icons  = {"info": "⚡",      "success": "✅",       "error": "❌"}
-    color  = colors.get(status, "#4f8ef7")
-    icon   = icons.get(status, "⚡")
-    st.markdown(f"""
-    <div style="background:#16161f; border:1px solid {color}33;
-        border-left:4px solid {color}; border-radius:10px;
-        padding:14px 18px; margin:10px 0;
-        display:flex; align-items:center; gap:10px;">
-        <span style="font-size:18px;">{icon}</span>
-        <span style="color:{color}; font-weight:500; font-size:14px;">{message}</span>
-    </div>
-    """, unsafe_allow_html=True)
+    icons  = {"info": "⚡", "success": "✅", "error": "❌"}
+    c = colors.get(status, "#4f8ef7")
+    ic = icons.get(status, "⚡")
+    st.markdown(f"<div style='background:#16161f;border:1px solid {c}33;border-left:4px solid {c};border-radius:10px;padding:14px 18px;margin:10px 0;display:flex;align-items:center;gap:10px;'><span style='font-size:18px;'>{ic}</span><span style='color:{c};font-weight:500;font-size:14px;'>{message}</span></div>", unsafe_allow_html=True)
 
 
-# Session State
+# ── Session State ──────────────────────────────────────────────────────────────
 def init_session():
-    defaults = {
-        "messages": [],
-        "docs_processed": False,
-        "vectorstore": None,
-        "doc_count": 0,
-        "chunk_count": 0,
-        "prefill_question": None,
-    }
+    defaults = {"messages": [], "docs_processed": False, "vectorstore": None, "doc_count": 0, "chunk_count": 0, "prefill_question": None}
     for key, val in defaults.items():
         if key not in st.session_state:
             st.session_state[key] = val
 
 
-# Main App
+# ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     init_session()
     render_header()
-
     uploaded_files, process_btn, clear_btn = render_sidebar()
 
-    # Clear session
     if clear_btn:
-        st.session_state["messages"] = []
-        st.session_state["docs_processed"] = False
-        st.session_state["vectorstore"] = None
-        st.session_state["doc_count"] = 0
-        st.session_state["chunk_count"] = 0
+        for key in ["messages", "docs_processed", "vectorstore", "doc_count", "chunk_count"]:
+            st.session_state[key] = [] if key == "messages" else (False if key == "docs_processed" else (None if key == "vectorstore" else 0))
         st.rerun()
 
-    # Process documents
     if process_btn:
         if not uploaded_files:
             st.sidebar.warning("⚠️ Please upload at least one PDF first.")
@@ -335,36 +231,19 @@ def main():
                     except Exception as e:
                         st.error(f"Error: {str(e)}")
 
-    # Main area
     if not st.session_state["docs_processed"]:
         render_welcome()
     else:
-        show_processing_status(
-            f"✅  {st.session_state['doc_count']} document(s) ready · "
-            f"{st.session_state['chunk_count']} chunks indexed · Ask anything below",
-            "success"
-        )
+        show_processing_status(f"✅  {st.session_state['doc_count']} document(s) ready · {st.session_state['chunk_count']} chunks indexed · Ask anything below", "success")
 
-        chat_container = st.container()
-        with chat_container:
+        with st.container():
             if not st.session_state["messages"]:
-                st.markdown("""
-                <div style="text-align:center; padding:40px 0 20px 0; color:#8888aa;">
-                    <div style="font-size:36px; margin-bottom:12px;">💬</div>
-                    <p style="font-size:15px;">Documents are ready! Start asking questions below.</p>
-                </div>
-                """, unsafe_allow_html=True)
-
+                st.markdown("<div style='text-align:center;padding:40px 0 20px 0;color:#8888aa;'><div style='font-size:36px;margin-bottom:12px;'>💬</div><p style='font-size:15px;'>Documents are ready! Start asking questions below.</p></div>", unsafe_allow_html=True)
             for msg in st.session_state["messages"]:
-                render_chat_message(
-                    msg["role"],
-                    msg["content"],
-                    msg.get("sources")
-                )
+                render_chat_message(msg["role"], msg["content"], msg.get("sources"))
 
         prefill = st.session_state.pop("prefill_question", None)
         user_input = st.chat_input("Ask anything about your documents...")
-
         if prefill and not user_input:
             user_input = prefill
 
@@ -389,29 +268,16 @@ def main():
                         if docs:
                             with st.expander("📎 View Sources", expanded=False):
                                 for i, src in enumerate(docs, 1):
-                                    st.markdown(f"""
-                                    <div style="background:#1c1c28; border-left:3px solid #4f8ef7;
-                                        border-radius:8px; padding:10px 14px; margin:6px 0;
-                                        font-size:13px; color:#c0c0d0; line-height:1.6;">
-                                        <span style="color:#4f8ef7; font-weight:600;">Source {i}</span>
-                                        — Page {src.metadata.get('page','?')}<br>
-                                        <span style="color:#8888aa;">"{src.page_content[:220]}..."</span>
-                                    </div>
-                                    """, unsafe_allow_html=True)
+                                    page = src.metadata.get('page', '?')
+                                    preview = src.page_content[:220]
+                                    st.markdown(f"<div style='background:#1c1c28;border-left:3px solid #4f8ef7;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:13px;color:#c0c0d0;line-height:1.6;'><span style='color:#4f8ef7;font-weight:600;'>Source {i}</span> — Page {page}<br><span style='color:#8888aa;'>\"{preview}...\"</span></div>", unsafe_allow_html=True)
 
-                        st.session_state["messages"].append({
-                            "role": "assistant",
-                            "content": answer,
-                            "sources": docs
-                        })
+                        st.session_state["messages"].append({"role": "assistant", "content": answer, "sources": docs})
 
                     except Exception as e:
                         err_msg = f"⚠️ Error: {str(e)}"
                         st.error(err_msg)
-                        st.session_state["messages"].append({
-                            "role": "assistant",
-                            "content": err_msg
-                        })
+                        st.session_state["messages"].append({"role": "assistant", "content": err_msg})
 
 
 if __name__ == "__main__":

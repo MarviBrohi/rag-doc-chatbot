@@ -5,7 +5,7 @@ from typing import List
 
 
 def build_context(docs: List[Document]) -> str:
-    """Build a formatted context string from retrieved document chunks."""
+    """Build formatted context string from retrieved document chunks."""
     context_parts = []
     for i, doc in enumerate(docs, 1):
         source = doc.metadata.get("source", "document")
@@ -17,13 +17,12 @@ def build_context(docs: List[Document]) -> str:
 
 
 def get_answer(question: str, docs: List[Document]) -> str:
-    """
-    Send question + retrieved context to Groq LLaMA3 and get an answer.
-    """
+    """Send question + context to Groq LLaMA3 and return answer."""
+
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         raise ValueError(
-            "GROQ_API_KEY not found. Please add it to your .env file or Streamlit secrets."
+            "GROQ_API_KEY not found. Please add it to your .env file."
         )
 
     client = Groq(api_key=api_key)
@@ -49,10 +48,10 @@ QUESTION: {question}
 Please provide a clear, accurate answer based only on the context above."""
 
     response = client.chat.completions.create(
-        model="llama3-8b-8192",
+        model="llama-3.3-70b-versatile",   # ✅ Active model on Groq
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+            {"role": "user",   "content": user_prompt}
         ],
         temperature=0.3,
         max_tokens=1024,
